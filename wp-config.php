@@ -25,10 +25,11 @@ define( 'WP_CACHE', true );
 define( 'DB_NAME', "institutodanone" );
 
 /** Database username */
-define( 'DB_USER', "roderball" );
+define( 'DB_USER', "root" );
+// define( 'DB_USER', "roderball" );
 
 /** Database password */
-define( 'DB_PASSWORD', "password" );
+define( 'DB_PASSWORD', "" );
 
 /** Database hostname */
 define( 'DB_HOST', "localhost" );

@@ -35,6 +35,7 @@ function mfnch_enqueue_styles()
 	// enqueue the child stylesheet
 
 	wp_dequeue_style('style');
+	wp_enqueue_style('estiloNuevos', get_stylesheet_directory_uri() .'/assets/css/stilosnuevos.min.css');
 	wp_enqueue_style('style', get_stylesheet_directory_uri() .'/style.css');
 }
 add_action('wp_enqueue_scripts', 'mfnch_enqueue_styles', 101);

@@ -1,0 +1,90 @@
+@import "../bourbon/app/assets/stylesheets/bourbon";
+
+// Ajustes
+:host {
+  --color-gray: #7f8998;
+}
+
+// Mixin
+@mixin fluid-type($min-font-size: 12px, $max-font-size: 21px, $lower-range: 420px, $upper-range: 900px) {
+  font-size: calc(#{$min-font-size} + #{(($max-font-size / ($max-font-size * 0 + 1)) - ($min-font-size / ($min-font-size * 0 + 1)))} * ( (100vw - #{$lower-range}) / #{(($upper-range / ($upper-range * 0 + 1)) - ($lower-range / ($lower-range * 0 + 1)))}));
+  @media screen and (max-width: $lower-range) {
+    font-size: $min-font-size;
+  }
+  @media screen and (min-width: $upper-range){
+    font-size: $max-font-size;
+  }
+}
+// Display Flex
+@mixin displayFlex($disp, $direc, $justify, $items, $wrp) {
+  @include display($disp); @include flex-direction($direc); @include justify-content($justify); @include align-items($items); @include flex-wrap($wrp);
+}
+
+// Body styles
+.nutriconCt {
+  width: 100%; height: auto; padding: 0% 6%; margin: 0; position: relative; box-sizing: border-box;
+  &.noPadd {
+    padding: 0;
+  }
+  &__box {
+    width: 100%; height: auto; padding: 0; margin: 0; position: relative; box-sizing: border-box;
+    &:hover {
+      & .nutriconCt__img {
+        & .imgCircle {
+          visibility: visible; opacity: 1;
+        }
+        & .imgIcon {
+          @include transform(scale(0.85));
+        }
+      }
+      & .nutriconCt__desc {
+        visibility: hidden; opacity: 0; @include transform(translateY(-20px));
+      }
+    }
+  }
+  &__img {
+    width: 130px; height: auto; padding: 20px 0; margin: 0 auto 0; position: relative; box-sizing: border-box;
+    & .imgIcon {
+      width: 100%!important; height: auto!important; padding: 0; margin: 0; display: block; @include transform(scale(1.0)); @include transition(transform 300ms ease-in-out);
+    }
+    & .imgCircle {
+      width: 150px!important; max-width: inherit!important; height: auto!important; padding: 0; margin: 0; display: block; @include position(absolute, 4px null null -11px); visibility: hidden; opacity: 0; @include transition(visibility 0s, opacity 300ms ease-in-out);
+    }
+    & .linkBox {
+      width: 100%; height: 100%; @include position(absolute, 0 null null 0); text-indent: -9999px; font-size: 0; opacity: 0;
+    }
+  }
+  &__desc {
+    width: 100%; height: auto; padding: 0; margin: 0; position: relative; box-sizing: border-box; visibility: visible; opacity: 1; @include transform(translateY(0)); @include transition(visibility 0s, opacity 250ms ease-in-out, transform 300ms ease);
+    & .titleBoxCt {
+      font-weight: 400; @include fluid-type(14px, 17px, 320px, 1200px); padding: 0; margin: 0; text-align: center; color: var(--color-gray); letter-spacing: 0; line-height: 1.2;
+    }
+    @media all and (min-width: 768px) {
+      & .titleBoxCt {
+        letter-spacing: 2px;
+      }
+    }
+  }
+}
+
+.nutriBox {
+  width: 100%; height: auto; padding: 0; margin: 0; position: relative; box-sizing: border-box; display: flex; align-items: flex-start; justify-content: flex-start;
+  &__box {
+    flex: 0 1 auto; margin: 0; padding: 0;
+    & img {
+      display: block; width: 100%!important; min-width: 200px!important; height: auto!important; margin: 0; padding: 0;
+    }
+  }
+  &__desc {
+    flex: 1 1 auto;
+    & .titleNutDesc {
+
+    }
+    & p {
+
+    }
+    & .btnNutri {
+
+    }
+  }
+}
