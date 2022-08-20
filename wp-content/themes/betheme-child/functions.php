@@ -37,6 +37,12 @@ function mfnch_enqueue_styles()
 	wp_dequeue_style('style');
 	wp_enqueue_style('estiloNuevos', get_stylesheet_directory_uri() .'/assets/css/stilosnuevos.min.css');
 	wp_enqueue_style('style', get_stylesheet_directory_uri() .'/style.css');
+
+	wp_enqueue_script('jquery');
+	wp_enqueue_script(
+			'script-theme',
+			get_stylesheet_directory_uri() . '/assets/js/scriptThemChild.min.js',
+			array('jquery'),false,true );
 }
 add_action('wp_enqueue_scripts', 'mfnch_enqueue_styles', 101);
 
