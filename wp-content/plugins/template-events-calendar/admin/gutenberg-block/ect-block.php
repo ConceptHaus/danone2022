@@ -1,5 +1,7 @@
 <?php
-
+if (!defined('ABSPATH')) {
+    exit;
+} 
 function ect_gutenberg_scripts() {
 	$blockPath = '/dist/block.js';
 	$stylePath = '/dist/block.css';

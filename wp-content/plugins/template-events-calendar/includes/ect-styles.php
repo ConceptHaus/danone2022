@@ -74,8 +74,7 @@ class EctStyles
             $thisPlugin = new self();
             $custom_style = $thisPlugin::ect_custom_styles($template,$style);
             if(in_array($template,array("timeline","classic-timeline",'timeline-view'))) {
-				//wp_enqueue_style('ect-timeline-styles');
-                wp_enqueue_style('ect-timeline-styles', ECT_PLUGIN_URL . 'assets/css/ect-timeline.min.css',null, ECT_VERSION,'all' );
+				wp_enqueue_style('ect-timeline-styles', ECT_PLUGIN_URL . 'assets/css/ect-timeline.min.css',null, ECT_VERSION,'all' );
                 wp_add_inline_style('ect-timeline-styles',$custom_style );
 			}
 			elseif($template=="minimal-list"){
@@ -123,8 +122,7 @@ class EctStyles
             $unit = ( ! empty($settings['unit'] ) ) ? $settings['unit'] : 'px';
           
             $line_height_unit = ( ! empty( $settings['line_height_unit'] ) ) ? $settings['line_height_unit'] : 'em';
-            // var_dump($line_height_unit);
-            foreach ( $properties as $property ) {
+             foreach ( $properties as $property ) {
               if ( isset($settings[$property] ) && $settings[$property] !== '' ) {
                 $unit = ( $property === 'line-height' ) ? $line_height_unit : $unit;
                 $output .= $property .':'. $settings[$property] . $unit . $important .';';
@@ -219,16 +217,19 @@ class EctStyles
             'Courier+New','Tahoma', 'Verdana','Impact','Trebuchet+MS','Comic+Sans+MS', 'Lucida+Console',
             'Lucida+Sans+Unicode','Georgia','Palatino+Linotype'
                 );
-                $build_url = 'https://fonts.googleapis.com/css?family=';
-               $ff_names[]='';
+            $build_url = esc_url('https://fonts.googleapis.com/css?family=');
+            $ff_names= array();
               foreach($all_saved_ff as $key=>$val){
                   if(!in_array($val,$safe_fonts)){
                         $ff_names[]=$val;
                       }
               }
-            $build_url.=implode("|",array_filter($ff_names));
+            if(!empty($ff_names)){
+                $build_url.=implode("|",array_filter($ff_names));
      
-            wp_enqueue_style('ect-google-font',"$build_url", array(), null, null, 'all');
+                wp_enqueue_style('ect-google-font',"$build_url", array(), null, null, 'all');
+            }
+            
             if(in_array($template,array("timeline","classic-timeline",'timeline-view'))) {
                 require(ECT_PLUGIN_DIR.'/templates/timeline/timeline-css.php' );
             }

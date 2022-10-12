@@ -95,13 +95,13 @@ class EctElementorWidget extends Widget_Base {
 	 *
 	 * @access protected
 	 */
-	protected function _register_controls() {
+	protected function register_controls() {
         $terms = get_terms(array(
 			'taxonomy' => 'tribe_events_cat',
 			'hide_empty' => false,
 		));
 		$ect_categories=array();
-		$ect_categories['all'] = __('All Categories','cool-timeline');
+		$ect_categories['all'] = __('All Categories','ect');
 
 		if (!empty($terms) || !is_wp_error($terms)) {
 			foreach ($terms as $term) {
@@ -126,7 +126,7 @@ class EctElementorWidget extends Widget_Base {
         $this->add_control(
 			'event_categories',
 			[
-				'label' => __( 'Categories', 'cool-timeline' ),
+				'label' => __( 'Categories', 'ect' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'all',
 				'options' => $ect_categories
@@ -136,13 +136,13 @@ class EctElementorWidget extends Widget_Base {
 		$this->add_control(
 			'template',
 			[
-				'label' => __( 'Select Template', 'cool-timeline' ),
+				'label' => __( 'Select Template', 'ect' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'default',
 				'options' => [
-					'default' => __( 'Default List Layout', 'cool-timeline' ),
-					'timeline-view' => __( 'Timeline Layout', 'cool-timeline' ),
-					'minimal-list'=>__('Minimal List','cool-timeline' ),
+					'default' => __( 'Default List Layout', 'ect' ),
+					'timeline-view' => __( 'Timeline Layout', 'ect' ),
+					'minimal-list'=>__('Minimal List','ect' ),
 				
 				]
 				
@@ -151,13 +151,13 @@ class EctElementorWidget extends Widget_Base {
         $this->add_control(
 			'style',
 			[
-				'label' => __( 'Template Style', 'cool-timeline' ),
+				'label' => __( 'Template Style', 'ect' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'style-1',
 				'options' => [
-					'style-1' => __( 'Style 1', 'cool-timeline' ),
-                    'style-2' => __( 'Style 2', 'cool-timeline' ),
-                    'style-3' => __( 'Style 3', 'cool-timeline' ),
+					'style-1' => __( 'Style 1', 'ect' ),
+                    'style-2' => __( 'Style 2', 'ect' ),
+                    'style-3' => __( 'Style 3', 'ect' ),
 				
 				]
 				
@@ -166,40 +166,40 @@ class EctElementorWidget extends Widget_Base {
         $this->add_control(
 			'date_formats',
 			[
-				'label' => __( 'Date Format', 'cool-timeline' ),
+				'label' => __( 'Date Format', 'ect' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'default',
 				'options' => [
          
-					'default' => __( 'Default (01 January 2019)', 'cool-timeline' ),
-                    'MD,Y' => __( 'Md,Y (Jan 01, 2019)', 'cool-timeline' ),
-                    'FD,Y' => __( 'Fd,Y (January 01, 2019)', 'cool-timeline' ),
-                    'DM' => __( 'dM (01 Jan))', 'cool-timeline' ),
-                    'DML' => __( 'dMl (01 Jan Monday)', 'cool-timeline' ),
-                    'DF' => __( 'dF (01 January)', 'cool-timeline' ),
-                    'MD' => __( 'Md (Jan 01)', 'cool-timeline' ),
-                    'MD,YT' => __( 'Md,YT (Jan 01, 2019 8:00am-5:00pm)', 'cool-timeline' ),
-                    'full' => __( 'Full (01 January 2019 8:00am-5:00pm)', 'cool-timeline' ),
-                    'jMl' => __( 'jMl', 'cool-timeline' ),
-                    'd.FY' => __( 'd.FY (01. January 2019)', 'cool-timeline' ),
-                    'd.F' => __( 'd.F (01. January)', 'cool-timeline' ),
-                    'ldF' => __( 'ldF (Monday 01 January)', 'cool-timeline' ),
-                    'Mdl' => __( 'Mdl (Jan 01 Monday)', 'cool-timeline' ),
-                    'd.Ml' => __( 'd.Ml (01. Jan Monday)', 'cool-timeline' ),
-                    'dFT' => __( 'dFT (01 January 8:00am-5:00pm)', 'cool-timeline' ),
+					'default' => __( 'Default (01 January 2019)', 'ect' ),
+                    'MD,Y' => __( 'Md,Y (Jan 01, 2019)', 'ect' ),
+                    'FD,Y' => __( 'Fd,Y (January 01, 2019)', 'ect' ),
+                    'DM' => __( 'dM (01 Jan))', 'ect' ),
+                    'DML' => __( 'dMl (01 Jan Monday)', 'ect' ),
+                    'DF' => __( 'dF (01 January)', 'ect' ),
+                    'MD' => __( 'Md (Jan 01)', 'ect' ),
+                    'MD,YT' => __( 'Md,YT (Jan 01, 2019 8:00am-5:00pm)', 'ect' ),
+                    'full' => __( 'Full (01 January 2019 8:00am-5:00pm)', 'ect' ),
+                    'jMl' => __( 'jMl (1 Jan Monday)', 'ect' ),
+                    'd.FY' => __( 'd.FY (01. January 2019)', 'ect' ),
+                    'd.F' => __( 'd.F (01. January)', 'ect' ),
+                    'ldF' => __( 'ldF (Monday 01 January)', 'ect' ),
+                    'Mdl' => __( 'Mdl (Jan 01 Monday)', 'ect' ),
+                    'd.Ml' => __( 'd.Ml (01. Jan Monday)', 'ect' ),
+                    'dFT' => __( 'dFT (01 January 8:00am-5:00pm)', 'ect' ),
                 ],
 			]
         );
         $this->add_control(
                 'time',
                 [
-                    'label' => __( 'Show Events', 'cool-timeline' ),
+                    'label' => __( 'Show Events', 'ect' ),
                     'type' => Controls_Manager::SELECT,
                     'default' => 'future',
                     'options' => [
-                        'future' => __( 'Upcoming Events', 'cool-timeline' ),
-                        'past' => __( 'Past Events', 'cool-timeline' ),
-                        'all' => __( 'All (Upcoming + Past)', 'cool-timeline' ),
+                        'future' => __( 'Upcoming Events', 'ect' ),
+                        'past' => __( 'Past Events', 'ect' ),
+                        'all' => __( 'All (Upcoming + Past)', 'ect' ),
                     
                     ]
                 ]
@@ -207,43 +207,43 @@ class EctElementorWidget extends Widget_Base {
         $this->add_control(
                 'order',
                 [
-                    'label' => __( 'Events Order', 'cool-timeline' ),
+                    'label' => __( 'Events Order', 'ect' ),
                     'type' => Controls_Manager::SELECT,
                     'default' => 'ASC',
                     'options' => [
-                        'ASC' => __( 'ASC', 'cool-timeline' ),
-                        'DESC' => __( 'DESC', 'cool-timeline' ),
+                        'ASC' => __( 'ASC', 'ect' ),
+                        'DESC' => __( 'DESC', 'ect' ),
                 ]
                 ]
             ); 
             $this->add_control(
                 'venue',
                 [
-                    'label' => __( 'Hide Venue', 'cool-timeline' ),
+                    'label' => __( 'Hide Venue', 'ect' ),
                     'type' => Controls_Manager::SELECT,
                     'default' => 'no',
                     'options' => [
-                        'no' => __( 'NO', 'cool-timeline' ),
-                        'yes' => __( 'Yes', 'cool-timeline' ),
+                        'no' => __( 'NO', 'ect' ),
+                        'yes' => __( 'Yes', 'ect' ),
                     ]
                 ]
             );
             $this->add_control(
                 'sharebutton',
                 [
-                    'label' => __( 'Enable Social Share Buttons?', 'cool-timeline' ),
+                    'label' => __( 'Enable Social Share Buttons?', 'ect' ),
                     'type' => Controls_Manager::SELECT,
                     'default' => 'no',
                     'options' => [
-                        'no' => __( 'NO', 'cool-timeline' ),
-                        'yes' => __( 'Yes', 'cool-timeline' ),
+                        'no' => __( 'NO', 'ect' ),
+                        'yes' => __( 'Yes', 'ect' ),
                     ]
                 ]
             );
             $this->add_control(
 			'limit',
 			[
-				'label' => __( 'Limit the events', 'cool-timeline' ),
+				'label' => __( 'Limit the events', 'ect' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => '10',
 				
@@ -252,7 +252,7 @@ class EctElementorWidget extends Widget_Base {
         $this->add_control(
 			'start_date',
 			[
-				'label' => __( 'Start Date | format(YY-MM-DD)', 'cool-timeline' ),
+				'label' => __( 'Start Date | format(YY-MM-DD)', 'ect' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => '',
 				
@@ -261,7 +261,7 @@ class EctElementorWidget extends Widget_Base {
         $this->add_control(
 			'end_date',
 			[
-				'label' => __( 'End Date | format(YY-MM-DD)', 'cool-timeline' ),
+				'label' => __( 'End Date | format(YY-MM-DD)', 'ect' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => '',
 				
@@ -293,11 +293,8 @@ class EctElementorWidget extends Widget_Base {
         $time=isset($settings['time'])?$settings['time']:"future";
 		$ect_categories = isset($settings['event_categories'])?$settings['event_categories']:"all";
 		$shortcode = '[events-calendar-templates category="'.$ect_categories.'" template="'.$layout.'" style="'.$style.'" date_format="'.$date_format.'" start_date="'.$start_date.'" end_date="'.$end_date.'" limit="'.$number_of_events.'" order="'.$order.'" hide-venue="'.$venue.'" socialshare="'.$sharebutton.'" time="'.$time.'"]';
-		echo'<div class="ect-elementor-shortcode ect-free-addon">';
-		//  if( is_admin() ){
-		// 	echo "<strong>For advanced Elementor settings please use our <a href='https://wordpress.org/plugins/events-widgets-for-elementor-and-the-events-calendar/'>The Events Calendar Widgets For Elementor Plugin</a>  </strong><br/><br>";
-		//  }
-        echo $shortcode;
+		echo '<div class="ect-elementor-shortcode ect-free-addon">';
+		echo wp_kses_post($shortcode);
         echo'</div>';
 	}
 }

@@ -44,14 +44,6 @@ class EctElementor {
 	private function ect_add_actions() {
 		add_action( 'elementor/widgets/widgets_registered', array($this, 'ect_on_widgets_registered' ));
 
-		// add_action( 'elementor/preview/enqueue_styles', function() {
-		// 	//wp_enqueue_style('ect-list-styles');
-		// 	wp_enqueue_style('ect-common-styles');	
-		// 	wp_enqueue_style('ect-sharebutton');
-		// 	wp_enqueue_style('ect-sharebutton-css');
-		// 	wp_enqueue_style('ect-timeline-styles');
-		// 	wp_enqueue_style('ect-minimal-list-styles');		
-		// } );
 	}
 
 	/**

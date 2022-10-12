@@ -88,12 +88,12 @@ if (!class_exists('ECT_event_shortcode')) {
 
         public function ect_event_shortcode()
         {
-            $id = isset($GLOBALS['_GET']['post'])?$GLOBALS['_GET']['post']:'';
-            $post_type = isset($GLOBALS['_GET']['post_type'])?$GLOBALS['_GET']['post_type']:get_post_type($id);
+            $id = isset($GLOBALS['_GET']['post'])?absint($GLOBALS['_GET']['post']):'';
+            $post_type = isset($GLOBALS['_GET']['post_type'])?wp_kses_post($GLOBALS['_GET']['post_type']):get_post_type($id);
             if($post_type!=='page' && $post_type!=='post' && $post_type!='') { 
                 return;
             }
-            if (class_exists('ECTCSF')) {
+            if (class_exists('CSF')) {
 
                 //
                 // Set a unique slug-like ID
@@ -101,7 +101,7 @@ if (!class_exists('ECT_event_shortcode')) {
 
                 //
                 // Create a shortcoder
-                ECTCSF::createShortcoder($prefix, array(
+                CSF::createShortcoder($prefix, array(
                     'button_title' => 'Events Shortcodes',
                     'insert_title' => 'Insert shortcode',
                     'gutenberg' => array(
@@ -116,7 +116,7 @@ if (!class_exists('ECT_event_shortcode')) {
                 //
                 // A basic shortcode
 
-                ECTCSF::createSection($prefix, array(
+                CSF::createSection($prefix, array(
                     'title' => 'Events Template',
                     'view' => 'normal', // View model of the shortcode. `normal` `contents` `group` `repeater`
                     'shortcode' => 'events-calendar-templates', // Set a unique slug-like name of shortcode.
@@ -297,7 +297,7 @@ if (!class_exists('ECT_event_shortcode')) {
                     'hide_empty' => true,
                 ));
                 $ect_categories = array();
-                $ect_categories['all'] = __('All Categories', 'cool-timeline');
+                $ect_categories['all'] = esc_html(__('All Categories', 'cool-timeline'));
 
                 if (!empty($terms) || !is_wp_error($terms)) {
                     foreach ($terms as $term) {

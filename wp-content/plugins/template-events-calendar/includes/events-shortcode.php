@@ -67,10 +67,10 @@ class EventsShortcode
          /*** Default var for later use */
          $output='';
          $events_html='';
-         $template=isset($attribute['template'])?$attribute['template']:'default';
-         $style=isset($attribute['style'])?$attribute['style']:'style-1';
-         $enable_share_button=isset($attribute['socialshare'])?$attribute['socialshare']:'no';
-         $time= $attribute['time'];
+         $template=isset($attribute['template'])?sanitize_text_field($attribute['template']):'default';
+         $style=isset($attribute['style'])?sanitize_text_field ($attribute['style']):'style-1';
+         $enable_share_button=isset($attribute['socialshare'])?sanitize_text_field ($attribute['socialshare']):'no';
+         $time= isset($attribute['time'])?sanitize_text_field($attribute['time']):'';
          /*** Load CSS styles based on template. */
          EctStyles::ect_load_requried_assets($template,$style);
 
@@ -124,8 +124,7 @@ class EventsShortcode
                  'type' => 'DATETIME'
              ));	
          }	
-         // var_Dump($attribute['order']);
-         /*** Fetch events based upon mentioned values */
+        /*** Fetch events based upon mentioned values */
          $ect_args = apply_filters( 'ect_args_filter', array(
              'post_status' => 'publish',
                'hide_upcoming' => true,
@@ -156,7 +155,7 @@ class EventsShortcode
              $event_venue='';			
              $events_date_header='';
              $no_events='';
-             $event_type = tribe( 'tec.featured_events' )->is_featured( $post->ID ) ? 'ect-featured-event' : 'ect-simple-event';
+             $event_type = tribe( 'tec.featured_events' )->is_featured( $post->ID ) ? sanitize_text_field ('ect-featured-event') : sanitize_text_field ('ect-simple-event');
              $event_id=$post->ID;
              $share_buttons='';
              if($enable_share_button=="yes"){
@@ -168,13 +167,13 @@ class EventsShortcode
              /*** Event date headers for timeline template */
              $show_headers = apply_filters( 'tribe_events_list_show_date_headers', true );
              if ( $show_headers ) {
-                 $event_year= tribe_get_start_date( $post, false, 'Y' );
-                 $event_month= tribe_get_start_date( $post, false, 'm' );
-                 $month_year_format= tribe_get_date_option( 'monthAndYearFormat', 'M Y' );
+                 $event_year= esc_html(tribe_get_start_date( $post, false, 'Y') );
+                 $event_month= esc_html(tribe_get_start_date( $post, false, 'm' ));
+                 $month_year_format= esc_html(tribe_get_date_option( 'monthAndYearFormat', 'M Y' ));
                  if ($prev_event_month != $event_month || ( $prev_event_month == $event_month && $prev_event_year != $event_year ) ) {		
                      $prev_event_month=$event_month;
                      $prev_event_year= $event_year;
-                     $date_header= sprintf( "<span class='month-year-box'>%s</span>", tribe_get_start_date( $post, false,'M Y'));	
+                     $date_header= sprintf("<span class='month-year-box'>%s</span>", esc_html(tribe_get_start_date( $post, false,'M Y')));	
                      $events_date_header.='<!-- Month / Year Headers -->';
                      $events_date_header.=$date_header;	
                  }
@@ -183,14 +182,13 @@ class EventsShortcode
              /*** Event venue details */
              $venue_details_html='';
              $venue_details = tribe_get_venue_details();
-             $has_venue_address = (!empty( $venue_details['address'] ) ) ? ' location' : '';				
-             /*** Setup an array of venue details for use later in the template */
+            /*** Setup an array of venue details for use later in the template */
              if($attribute['hide-venue']!="yes") {
                  if($template=="classic-list" || $template=="modern-list" || $template=="default" || $template=="minimal-list") {
-                     $venue_details_html.='<div class="ect-list-venue '.$template.'-venue">';
+                     $venue_details_html.='<div class="ect-list-venue '.esc_attr($template).'-venue">';
                  }
                  else {
-                     $venue_details_html.='<div class="'.$template.'-venue">';
+                     $venue_details_html.='<div class="'.esc_attr($template).'-venue">';
                  }
 
                  if (tribe_has_venue()) :
@@ -203,7 +201,7 @@ class EventsShortcode
                  $venue_details_html.=implode(',', $venue_details );
                  $venue_details_html.='</div>';
                  if ( tribe_get_map_link() ) {
-                     $venue_details_html.='<span class="ect-google">'.tribe_get_map_link_html().'</span>';
+                     $venue_details_html.='<span class="ect-google">'.wp_kses_post(tribe_get_map_link_html()).'</span>';
                  }
                  $venue_details_html.='</span>';
                  endif ;
@@ -216,25 +214,24 @@ class EventsShortcode
                  $event_cost='<!-- Event Ticket Price Info -->
                  <div class="ect-rate-area">
                  <span class="ect-icon"><i class="ect-icon-ticket"></i></span>
-                 <span class="ect-rate">'.tribe_get_cost(null, true ).'</span>
+                 <span class="ect-rate">'.esc_html(tribe_get_cost(null, true )).'</span>
                  </div>';
              endif;
              /*** event day */
-             $event_day='<span class="event-day">'.tribe_get_start_date($event_id, true, 'l').'</span>';
+             $event_day='<span class="event-day">'.esc_html(tribe_get_start_date($event_id, true, 'l')).'</span>';
              $ev_time=$this->ect_tribe_event_time(false);
 
              $event_schedule=ect_custom_date_formats($attribute['date_format'],$template,$event_id,$ev_time);
 
-             // Organizer
-             $organizer = tribe_get_organizer();
+    
 
              /*** Event title */
-             $event_title='<a class="ect-event-url" href="'.esc_url( tribe_get_event_link()).'" rel="bookmark">'. get_the_title().'</a>';
+             $event_title='<a class="ect-event-url" href="'.esc_url( tribe_get_event_link($event_id)).'" rel="bookmark">'. wp_kses_post(get_the_title($event_id)).'</a>';
                  
              /*** Event description - content */
              $event_content='<!-- Event Content --><div class="ect-event-content">';
              $event_content.=tribe_events_get_the_excerpt($event_id, wp_kses_allowed_html( 'post' ) );
-             $event_content.='<a href="'.esc_url( tribe_get_event_link($event_id) ).'" class="ect-events-read-more" rel="bookmark">'.esc_html__( 'Find out more', 'the-events-calendar' ).' &raquo;</a></div>';
+             $event_content.='<a href="'.esc_url( tribe_get_event_link($event_id) ).'" class="ect-events-read-more" rel="bookmark">'.esc_html__( 'Find out more', 'ect' ).' &raquo;</a></div>';
              
          
 
@@ -257,16 +254,14 @@ class EventsShortcode
          }
          else { 
             $tect_settings = get_option('ects_options');
-            $no_event_found_text = !empty($tect_settings['events_not_found'])?$tect_settings['events_not_found']:'';
+            $no_event_found_text = !empty($tect_settings['events_not_found'])?sanitize_text_field($tect_settings['events_not_found']):'';
             
-            // $tect_settings = TitanFramework::getInstance( 'ect' );
-           //  $no_event_found_text = $tect_settings->getOption( 'events_not_found' );
-        //    var_dump($no_event_found_text);
+          
              $not_found_msz='';
              if(!empty($no_event_found_text)){
-                 $not_found_msz=filter_var($no_event_found_text,FILTER_SANITIZE_STRING);
+                 $not_found_msz=sanitize_text_field($no_event_found_text);
              }else{
-                 $not_found_msz='<div class="ect-no-events"><p>'.__('There are no upcoming events at this time.','ect').'</p></div>';
+                 $not_found_msz='<div class="ect-no-events"><p>'.esc_html__('There are no upcoming events at this time.','ect').'</p></div>';
              }
              $no_events='<span class="ect-icon"><i class="ect-icon-bell"></i></span>'.$not_found_msz;
          } 
@@ -276,7 +271,7 @@ class EventsShortcode
      
          /*** Generate output based on template */
          if($no_events){
-             $output.='<div id="ect-no-events"><p>'.$no_events.'</p></div>';
+             $output.='<div id="ect-no-events"><p>'.sanitize_text_field($no_events).'</p></div>';
          }
          else {
              if(in_array($template,array("timeline","classic-timeline",'timeline-view'))){
@@ -288,7 +283,7 @@ class EventsShortcode
                  }
  
                  $output .='<!=========Events Timeline Template '.ECT_VERSION.'=========>';
-                 $output .= '<div id="event-timeline-wrapper" class="'. $catCls.' '.$style.'">';
+                 $output .= '<div id="event-timeline-wrapper" class="'.esc_attr( $catCls).' '.esc_attr($style).'">';
                  $output .= '<div class="cool-event-timeline">';
                  $output .=$events_html;
                  $output .= '</div></div>';
@@ -296,14 +291,14 @@ class EventsShortcode
              else if($template=="minimal-list"){
                  $output .='<!=========Events Static list Template '.ECT_VERSION.'=========>';
                  $output.='<div id="ect-events-minimal-list-content">';
-                 $output.='<div id="ect-minimal-list-wrp" class="ect-minimal-list-wrapper '. $catCls.'">';
+                 $output.='<div id="ect-minimal-list-wrp" class="ect-minimal-list-wrapper '.esc_attr( $catCls).'">';
                  $output.=$events_html;
                  $output.='</div></div>';	
              }
              else {	
                  $output .='<!=========Events list Template '.ECT_VERSION.'=========>';
                  $output.='<div id="ect-events-list-content">';
-                 $output.='<div id="list-wrp" class="ect-list-wrapper '. $catCls.'">';
+                 $output.='<div id="list-wrp" class="ect-list-wrapper '.esc_attr( $catCls).'">';
                  $output.=$events_html;
                  $output.='</div></div>';		
              }
@@ -326,18 +321,22 @@ class EventsShortcode
 				$start_date = tribe_get_start_date( null, false );
 				$end_date = tribe_get_end_date( null, false );
 				if ( $display ) {
-					printf( __( '%s - %s', 'ect' ), $start_date, $end_date );
+                    printf( esc_html__( '%s - %s', 'ect' ), esc_html($start_date), esc_html($end_date) );
+					
 				}
 				else {
-					return sprintf( __( '%s - %s', 'ect' ), $start_date, $end_date );
+                    return sprintf( esc_html__( '%s - %s', 'ect' ), esc_html($start_date), esc_html($end_date) );
+				
 				}
 			}
 			elseif ( tribe_event_is_all_day( $event ) ) { // all day event
 				if ( $display ) {
-					_e( 'All day', 'the-events-calendar' );
+                    printf( esc_html__( 'All day', 'the-events-calendar' ) );
+					
 				}
 				else {
-					return __( 'All day', 'the-events-calendar' );
+                    return sprintf( esc_html__( 'All day', 'the-events-calendar' ) );
+					
 				}
 			}
 			else {
@@ -346,42 +345,21 @@ class EventsShortcode
 				$end_date = tribe_get_end_date( $event, false, $time_format );
 				if ( $start_date !== $end_date ) {
 					if ( $display ) {
-						printf( __( '%s - %s', 'ect' ), $start_date, $end_date );
+                        printf( esc_html__( '%s - %s', 'ect' ), esc_html($start_date), esc_html($end_date) );
+					
 					}
 					else {
-						return sprintf( __( '%s - %s', 'ect' ), $start_date, $end_date );
+						return sprintf( esc_html__( '%s - %s', 'ecct' ), esc_html($start_date), esc_html($end_date) );
 					}
 				}
 				else {
 					if ( $display ) {
-						printf( '%s', $start_date );
+						printf( esc_html__('%s','ect'), esc_html($start_date) );
 					}
 					else {
-						return sprintf( '%s', $start_date );
+                        return sprintf( esc_html__('%s','ect'), esc_html($start_date) );
 					}
 				}
 			}
 		}
-
-		// check event recurring event
-		public function ect_tribe_event_recurringinfo( $before = '', $after = '', $link_all = true ) {
-			if ( !function_exists('tribe_is_recurring_event') ) {
-				return false;
-			}
-			global $post;
-			$info = '';
-			if ( tribe_is_recurring_event( $post->ID ) ) {
-				if ( function_exists( 'tribe_get_recurrence_text' ) ) {
-					$info .= tribe_get_recurrence_text( $post->ID );
-				}
-				if ( $link_all && function_exists( 'tribe_all_occurences_link' ) ) {
-					$info .= sprintf( ' <a href="%s">%s</a>', esc_url( tribe_all_occurences_link( $post->ID, false ) ), __( '(See All)', 'ect' ) );
-				}
-			}
-			if ( $info ) {
-				$info = $before.$info.$after;
-			}
-			return $info;
-		}
-
 }

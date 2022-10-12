@@ -8,41 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * This class can not be initialized or extended.
  */
 
-/**************************************************************************************************
- *  HOW TO USE.
- * After including this file, use the below example to start creating admin notice / review box
- *
- * Two arguments, id & message are required and can not be ommitied.
- * id must be unique for every message or it will override the previous message with same id.
- * 
- *               create a simple admin text message
- *   ect_create_admin_notice( array('id'=>'bp-greeting-mesage','message'=>'Hey there!') );
- * 
- *              create a admin text error message
- * ect_create_admin_notice( array('id'=>'bp-error-mesage','message'=>'this is an example of error!','type'=>'error') );
- * The argument 'type' can be: error, success, warning
- * 
- *              create a review box by passing minimum arguments
- * $slug = 'bp';
- * update_option($slug . '_activation_time,strtotime('now') ); // must create an activation time 
- * ect_create_admin_notice( 
- *          array(
- *              'id'=>'bp_review_box',  // required and must be unique
- *              'slug'=>$slug,      // required in case of review box
- *              'review'=>true,     // required and set to be true for review box
- *              'review_url'=>'http://coolplugins.net', // required
- *              'plugin_name'=>'Boiler Plate Plugin',    // required
- *              'logo'=>'http://example.com/logo.png',   // optional: it will display logo
- *              'review_interval'=>5                    // optional: this will display review notice
- *                                                      //   after 5 days from the installation_time
- *                                                      // default is 3
- *          )
- * );
- * 
- * NOTE: Review box does not be displayed unless the $slug _activation_time is equals or
- * more than the 3 days from current time. This can also be changed by setting 'review_interval' arguments
- ***************************************************************************************************** 
- */
 if (!class_exists('ect_admin_notices')):
 
     final class ect_admin_notices
@@ -74,11 +39,6 @@ if (!class_exists('ect_admin_notices')):
                 $this->ect_show_error('id is required for integrating admin notice.');
                 return;
             }
-
-            if( array_key_exists( $notice['id'], $this->messages ) ){
-
-            }
-
             if ( isset($notice['review']) && true != (bool)$notice['review'] && ( !isset($notice['message']) || empty($notice['message']) )) {
                 $this->ect_show_error('message can not be null. You must provide some text for message field');
                 return;
@@ -120,6 +80,7 @@ if (!class_exists('ect_admin_notices')):
     	 * @return void
     	 */
     	public function ect_load_script() {    	
+            wp_enqueue_script( 'ect-hide-notice-js',ECT_PLUGIN_URL .'assets/js/ect-notice.js', array('jquery'),ECT_VERSION, true );
             wp_register_style( 'ect-feedback-notice-styles', ECT_PLUGIN_URL.'assets/css/ect-admin-notices.css',array(),ECT_VERSION,'all' );
             wp_enqueue_style( 'ect-feedback-notice-styles' );
         }
@@ -147,9 +108,7 @@ if (!class_exists('ect_admin_notices')):
          * @param array $message This is an array of message object
          */
         private function ect_simple_notice($id, $message ){
-
             if( get_option($id . '_remove_notice') ) return;
-            
             $classes = 'notice ' . trim( $message['type'] ) . ' is-dismissible ' . trim( $message['class'] );
             $script = '<script>
             jQuery(document).ready(function ($) {
@@ -167,14 +126,16 @@ if (!class_exists('ect_admin_notices')):
             });
             </script>';
             $nonce = wp_create_nonce( $id . '_notice_nonce' );
-            $img_path= ( isset( $message['logo'] ) && !empty($message['logo'] ) ) ? $message['logo'] : null;
+            $img_path= ( isset( $message['logo'] ) && !empty($message['logo'] ) ) ? esc_url($message['logo']) : null;
+            $url = esc_url('https://wordpress.org/plugins/events-widgets-for-elementor-and-the-events-calendar/');
             if( $img_path != null ){
-                $image_html ='<div class="logo_container"><a href="https://wordpress.org/plugins/events-widgets-for-elementor-and-the-events-calendar/"><img src="'.$img_path.'" style="max-width:70px;"></a></div>';
+                $image_html ='<div class="logo_container"><a href="'.esc_url($url).'"><img src="'.esc_url($img_path).'" style="max-width:70px;"></a></div>';
             }
             else{
                 $image_html ='';
             }
-            echo "<div class='".$id."_admin_notice $classes ect-simple-notice' data-ajax-url='".admin_url('admin-ajax.php')."' data-wp-nonce='". $nonce . "' data-plugin-slug='$id'>$image_html<div class='message_container'><p>" . $message['message'] . "</p></div></div>" . $script;
+            $class_name = "_admin_notice $classes ect-simple-notice";
+            echo "<div class='".esc_attr($id)."".esc_attr($class_name)."' data-ajax-url='".esc_url(admin_url('admin-ajax.php'))."' data-wp-nonce='". esc_attr($nonce) . "' data-plugin-slug=".esc_attr($id).">".wp_kses_post($image_html)."<div class='message_container'><p>" . wp_kses_post($message['message']) . "</p></div></div>" . $script;
         }
 
         /**
@@ -188,13 +149,11 @@ if (!class_exists('ect_admin_notices')):
             }
             $slug = $messageObj['slug'];
             $days = $messageObj['review_interval'];
-                       
             if(get_option( 'ect-free-installDate' )){
                 // get installation dates and rated settings
-                //$installation_date =date( 'Y-m-d h:i:s', get_option( 'ect-free-installDate' ));
-                $installation_date =date( 'Y-m-d h:i:s', strtotime(get_option( 'ect-free-installDate' )) );
+              $installation_date =date( 'Y-m-d h:i:s', strtotime(get_option( 'ect-free-installDate' )) );
             }else{
-              //  $this->ect_show_error('Review notice can not be integrated. ect-free-installDate option is not set for the plugin');
+              
                 return;
             }
                        
@@ -215,7 +174,7 @@ if (!class_exists('ect_admin_notices')):
               
                 // check if installation days is greator then week
                 if (isset($diff_days) && $diff_days>= $days ) {
-                    echo $this->ect_create_notice_content( $id, $messageObj );
+                    echo wp_kses_post($this->ect_create_notice_content( $id, $messageObj ));
                 }
         }
 
@@ -229,7 +188,7 @@ if (!class_exists('ect_admin_notices')):
         $ajax_url=admin_url( 'admin-ajax.php' );
         $ajax_callback = 'cool_plugins_admin_review_notice_dismiss';
         $wrap_cls="notice notice-info is-dismissible";
-        $img_path= ( isset( $messageObj['logo'] ) && !empty($messageObj['logo'] ) ) ? $messageObj['logo'] : null;
+        $img_path= ( isset( $messageObj['logo'] ) && !empty($messageObj['logo'] ) ) ? esc_url($messageObj['logo']) : null;
         $slug = $messageObj['slug'];
         $plugin_name= $messageObj['plugin_name'];
         $like_it_text='Rate Now! ★★★★★';
@@ -238,10 +197,11 @@ if (!class_exists('ect_admin_notices')):
         $plugin_link=  $messageObj['review_url'] ;
         $pro_url=esc_url('https://1.envato.market/calendar');
         $review_nonce = wp_create_nonce( $id . '_review_nonce' ); 
+        $web_url = esc_url('https://coolplugins.net');
         $message="Thanks for using <b>$plugin_name</b> - WordPress plugin.
-        We hope you liked it ! <br/>Please give us a quick rating, it works as a boost for us to keep working on more <a href='https://coolplugins.net' target='_blank'><strong>Cool Plugins</strong></a>!<br/>";
-      
-        $html='<div data-ajax-url="%8$s" data-plugin-slug="%11$s" data-wp-nonce="%12$s" id="%13$s" data-ajax-callback="%9$s" class="%11$s-feedback-notice-wrapper %1$s">';
+        We hope you liked it ! <br/>Please give us a quick rating, it works as a boost for us to keep working on more <a href=".esc_url($web_url)." target='_blank'><strong>Cool Plugins</strong></a>!<br/>";
+        $html = '<div class="ect-main-notice-wrp" id="'.esc_attr($id).'" data-slug="'.esc_attr($slug).'">';
+        $html.='<div data-ajax-url="%8$s" data-plugin-slug="%11$s" data-wp-nonce="%12$s" id="%13$s" data-ajax-callback="%9$s" class="%11$s-feedback-notice-wrapper %1$s">';
         
         if( $img_path != null ){
             $html .='<div class="logo_container"><a href="%5$s"><img src="%2$s" alt="%3$s" style="max-width:80px;"></a></div>';
@@ -251,32 +211,17 @@ if (!class_exists('ect_admin_notices')):
         <div class="callto_action">
         <ul>
             <li class="love_it"><a href="%5$s" class="like_it_btn button button-primary" target="_new" title="%6$s">%6$s</a></li>
-            <li class="already_rated"><a href="javascript:void(0);" class="already_rated_btn button %11$s_dismiss_notice" title="%7$s">%7$s</a></li>  
-            <li class="already_rated"><a href="javascript:void(0);" class="already_rated_btn button %11$s_dismiss_notice" title="%10$s">%10$s</a></li>    
+            <li class="already_rated"><a href="#" class="already_rated_btn button %11$s_dismiss_notice" title="%7$s">%7$s</a></li>  
+            <li class="already_rated"><a href="#" class="already_rated_btn button %11$s_dismiss_notice" title="%10$s">%10$s</a></li>    
             <li class="buy_pro"><a href="%14$s" class="button" target="_blank">Buy Pro Version - $26</a></li>       
         </ul>
         <div class="clrfix"></div>
         </div>
         </div>
-        </div>';
-        $script = '<script>
-        jQuery(document).ready(function ($) {
-            $(document).on("click", "#'.$id.' .'.$slug.'_dismiss_notice", function (event) {
-                var $this = $(this);
-                var wrapper=$this.parents(".'.$slug.'-feedback-notice-wrapper");
-                var ajaxURL=wrapper.data("ajax-url");
-                var ajaxCallback=wrapper.data("ajax-callback");
-                var slug = wrapper.data("plugin-slug");
-                var id = wrapper.attr("id");
-                var wp_nonce = wrapper.data("wp-nonce");
-                $.post(ajaxURL, { "action":ajaxCallback,"slug":slug,"id":id,"_nonce":wp_nonce }, function( data ) {
-                    wrapper.slideUp("fast");
-                  })
-            });
-        });
-        </script>';
+        </div></div>';
 
-        $html .= $script;
+
+      
       
 
         return sprintf($html,
@@ -303,17 +248,18 @@ if (!class_exists('ect_admin_notices')):
         * This is called by a wordpress ajax hook
         */
         public function ect_admin_review_notice_dismiss(){
-            $slug = filter_var($_REQUEST['slug'], FILTER_SANITIZE_STRING);
-            $id = filter_var($_REQUEST['id'], FILTER_SANITIZE_STRING); 
+            $id = isset($_REQUEST['id'])?sanitize_text_field($_REQUEST['id']):'';
             $nonce_key = $id . '_review_nonce' ;
-
-            if( isset( $_REQUEST['_nonce'] ) && !empty( $_REQUEST['_nonce'] ) && wp_verify_nonce( $_REQUEST['_nonce'], $nonce_key ) ){
-                update_option( 'ect-ratingDiv','yes' );
-                echo json_encode( array("success"=>"true") );
+            if ( ! check_ajax_referer($nonce_key,'_nonce', false ) ) {
+                echo wp_json_encode( array("error"=>"nonce verification failed!"));
+                die();
+               
             }else{
-                echo json_encode( array("error"=>"nonce verification failed!") );
+                update_option( 'ect-ratingDiv','yes' );
+                echo wp_json_encode( array("success"=>"true"));
+                die();
             }
-                exit;
+           
         }
 
         /************************************************************
@@ -322,16 +268,15 @@ if (!class_exists('ect_admin_notices')):
          ************************************************************/
         public function ect_admin_notice_dismiss()
         {
-           
-            $id = filter_var($_REQUEST['id'], FILTER_SANITIZE_STRING); 
+            $id = isset($_REQUEST['id'])?sanitize_text_field($_REQUEST['id']):'';
             $wp_nonce = $id . '_notice_nonce';
-
-            if( isset( $_REQUEST[ '_nonce' ] ) && wp_verify_nonce( $_REQUEST[ '_nonce' ] , $wp_nonce ) ){
+            if ( ! check_ajax_referer($wp_nonce,'_nonce', false ) ) {
+                die( 'nonce verification failed!' );
+            }else{
                 $us=update_option( $id . '_remove_notice','yes' );
                 die( 'Admin message removed!' );
-            }else{
-                die( 'nounce verification failed!' );
             }
+            
 
         }
 
@@ -343,7 +288,7 @@ if (!class_exists('ect_admin_notices')):
             $er = "<div style='text-align:center;margin-left:20px;padding:10px;background-color: #cc0000; color: #fce94f; font-size: x-large;'>";
             $er .= "Error: ".$error_text;
             $er .= "</div>";
-            echo $er;
+            echo wp_kses_post($er);
         }
 
     }   // end of main class ect_admin_notices;
@@ -358,7 +303,6 @@ endif;
         if (!is_admin()) {
             return;
         }
-        
         $main_class = ect_admin_notices::ect_create_notice();
         $main_class->ect_add_message($notice);
         return $main_class;

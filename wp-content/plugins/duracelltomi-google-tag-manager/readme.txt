@@ -1,11 +1,11 @@
-=== Google Tag Manager for WordPress ===
+=== GTM4WP ===
 Contributors: duracelltomi
 Donate link: https://gtm4wp.com/
 Tags: google tag manager, tag manager, gtm, google, adwords, google adwords, google ads, adwords remarketing, google ads remarketing, remarketing, google analytics, analytics, facebook ads, facebook remarketing, facebook pixel, google optimize, personalisation
 Requires at least: 3.4.0
 Requires PHP: 5.6
-Tested up to: 5.9.3
-Stable tag: 1.15.1
+Tested up to: 6.0.0
+Stable tag: 1.16.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -234,6 +234,37 @@ https://gtm4wp.com/how-to-articles/how-to-exclude-admin-users-from-being-tracked
 6. Scroll tracking
 
 == Changelog ==
+
+= 1.16.1 = 
+
+* Fixed: GTM ID not properly set in noscript tag (probably fixes some 403 errors with firewalls too)
+
+= 1.16 =
+
+This plugin version does not add or update any functionality.
+After recent events, the code of the plugin has been checked line by line to see where additional security checks can be added.
+The code has been formatted to better support readability for other programmers.
+
+Deprecated:
+* gtm4wp_get_the_gtm_tag hook and the corresponding GTM4WP_WPFILTER_GETTHEGTMTAG PHP constant.
+* gtm4wp_add_global_vars hook and the corresponding GTM4WP_WPFILTER_ADDGLOBALVARS PHP constant. Use gtm4wp_add_global_vars_array / GTM4WP_WPFILTER_ADDGLOBALVARS_ARRAY instead.
+* gtm4wp_after_datalayer hook and the corresponding GTM4WP_WPACTION_AFTER_DATALAYER PHP constant. Use gtm4wp_output_after_datalayer / GTM4WP_WPACTION_AFTER_DATALAYER instead witch can be used in the same way but it is an action instead of a filter.
+
+Upcoming version will come with important changes:
+* Minimum PHP version will be raised to 7.4: this will allow me to add even more safety measures
+* Minimum supported WooCommerce version will be raised to WooCommerce 5.0: with this I can remove some very old compatibility code
+* Deprecated features will be removed (aims to simplify code for better maintenance):
+  * Do not track flag of the browser added into data layer
+  * Legacy version of WooCommerce dynamic remarketing (using ecomm_ parameters)
+
+The goal of all these changes aim to keep the plugin code clean and free from legacy solutions.
+
+= 1.15.2 =
+
+* Fixed: Stored XSS when using the scroll tracking feature and an admin changes the content element ID into a JavaScript code.
+* Deprecated option: 'do not track' flag of the browser. This browser feature itself [is now deprecated](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/DNT)
+
+Full scan of the plugin is also in works to fix any other possible XSS issue.
 
 = 1.15.1 =
 
@@ -779,6 +810,22 @@ Please report all bugs found in my plugin using the [contact form on my website]
 * First beta release
 
 == Upgrade Notice ==
+
+= 1.16.1 =
+
+Bugfix release
+
+= 1.16 =
+
+Maintenance release with lots of code updates without adding functionality.
+
+= 1.15.2 =
+
+Bugfix release
+
+= 1.15.1 =
+
+Bugfix release
 
 = 1.15 =
 

@@ -19,7 +19,7 @@ if (!class_exists('EctVCAddon')) {
                     'hide_empty' => false,
                 ));
                 $ect_categories=array();
-                $ect_categories['all'] = __('all','ect2');
+                $ect_categories['all'] = esc_html(__('all','ect2'));
         
                 if (!empty($terms) || !is_wp_error($terms)) {
                     foreach ($terms as $term) {
@@ -28,56 +28,53 @@ if (!class_exists('EctVCAddon')) {
                 }
                $date_formats= array(
                    
-					  __( 'Default (01 January 2019)', 'ect2' )=>'default',
-                      __( 'Md,Y (Jan 01, 2019)', 'ect2' )=>'MD,Y',
-                     __( 'Fd,Y (January 01, 2019)', 'ect2' )=>'FD,Y',
-                    __( 'dM (01 Jan))', 'ect2' )=> 'DM',
-                     __( 'dMl (01 Jan Monday)', 'ect2' )=>'DML',
-                     __( 'dF (01 January)', 'ect2' )=>'DF',
-                     __( 'Md (Jan 01)', 'ect2' )=>'MD',
-                   __( 'Md,YT (Jan 01, 2019 8:00am-5:00pm)', 'ect2' )=> 'MD,YT',
-                    __( 'Full (01 January 2019 8:00am-5:00pm)', 'ect2' )=>'full',
-                    __( 'jMl', 'ect2' )=> 'jMl',
-                     __( 'd.FY (01. January 2019)', 'ect2' )=>'d.FY',
-                     __( 'd.F (01. January)', 'ect2' )=>'d.F',
-                     __( 'ldF (Monday 01 January)', 'ect2' )=>'ldF',
-                    __( 'Mdl (Jan 01 Monday)', 'ect2' )=>'Mdl',
-                    __( 'd.Ml (01. Jan Monday)', 'ect2' )=>'d.Ml',
-                    __( 'dFT (01 January 8:00am-5:00pm)', 'ect2' )=>  'dFT',
+                esc_html(__( 'Default (01 January 2019)', 'ect2' ))=>'default',
+                esc_html(__( 'Md,Y (Jan 01, 2019)', 'ect2' ))=>'MD,Y',
+                esc_html(__( 'Fd,Y (January 01, 2019)', 'ect2' ))=>'FD,Y',
+                esc_html(__( 'dM (01 Jan))', 'ect2' ))=> 'DM',
+                esc_html(__( 'dMl (01 Jan Monday)', 'ect2' ))=>'DML',
+                esc_html(__( 'dF (01 January)', 'ect2' ))=>'DF',
+                esc_html(__( 'Md (Jan 01)', 'ect2' ))=>'MD',
+                esc_html(__( 'Md,YT (Jan 01, 2019 8:00am-5:00pm)', 'ect2') )=> 'MD,YT',
+                esc_html(__( 'Full (01 January 2019 8:00am-5:00pm)', 'ect2') )=>'full',
+                esc_html(__( 'jMl', 'ect2' ))=> 'jMl',
+                esc_html(__( 'd.FY (01. January 2019)', 'ect2' ))=>'d.FY',
+                esc_html(__( 'd.F (01. January)', 'ect2') )=>'d.F',
+                esc_html(__( 'ldF (Monday 01 January)', 'ect2') )=>'ldF',
+                esc_html(__( 'Mdl (Jan 01 Monday)', 'ect2' ))=>'Mdl',
+                esc_html(__( 'd.Ml (01. Jan Monday)', 'ect2' ))=>'d.Ml',
+                esc_html(__( 'dFT (01 January 8:00am-5:00pm)', 'ect2' ))=>  'dFT',
                  
                     );
                     $templates=  array(
-                                __( "Default",'ect2' ) => "default",
-                                __( "Timeline Layout",'ect2') => "timeline-view",
-                                __(  'Minimal List','ect2') => 'minimal-list',
+                      esc_html(__( "Default",'ect2' )) => "default",
+                      esc_html( __( "Timeline Layout",'ect2')) => "timeline-view",
+                      esc_html( __(  'Minimal List','ect2')) => 'minimal-list',
                                
                             );
                             $styles=  array(
-                                __( "Style 1",'ect2' ) => "style-1",
-                                __( "Style 2",'ect2') => "style-2",
-                                __( "Style 3",'ect2') => "style-3",
+                              esc_html(__( "Style 1",'ect2' )) => "style-1",
+                              esc_html(__( "Style 2",'ect2')) => "style-2",
+                              esc_html(__( "Style 3",'ect2')) => "style-3",
                                
                             );
 
              
                 vc_map(array(
-                    "name" => __("The Events Calendar Shortcode", 'ect2'),
-                    // "description" => __("Create Stories Timeline", 'ect2'),
+                    "name" => esc_html(__("The Events Calendar Shortcode", 'ect2')),
                     "base" => "events-calendar-templates",
                     "class" => "",
                     "controls" => "full",
                      "icon" => plugins_url('../../assets/images/ect-icon.png', __FILE__), // or css class name which you can reffer in your css file later. Example: "cool-timeline_my_class"
                     "category" => __('The Events Calendar Shortcode', 'ect2'),
-                    //'admin_enqueue_js' => array(plugins_url('assets/ect2.js', __FILE__)), // This will load js file in the VC backend editor
-                    //'admin_enqueue_css' => array(plugins_url('assets/cool-timeline_admin.css', __FILE__)), // This will load css file in the VC backend editor
-                    "params" => array(
+                   "params" => array(
                         array(
                             "type" => "dropdown",
                             "class" => "",
-                            "heading" => __( "Select Events Category",'ect2'),
+                            "heading" => esc_html(__( "Select Events Category",'ect2')),
                             "param_name" => "category",
                             "value" =>$ect_categories,
-                            // "description" => __( "Create Category Specific Timeline (By Default - All Categories)",'ect2' ),
+                           
 
                             'save_always' => true,
                         ),
@@ -88,28 +85,28 @@ if (!class_exists('EctVCAddon')) {
                              "param_name" => "template",
                             "value" => $templates,
                            
-                    //         "description" => __('','ect2' ),
+                    
                              'save_always' => true,
                          ),
                         
                          array(
                             "type" => "dropdown",
                          "class" => "",
-                           "heading" => __( "Select Styles",'ect2'),
+                           "heading" => esc_html(__( "Select Styles",'ect2')),
                              "param_name" => "style",
                             "value" => $styles,
                            
-                    //         "description" => __('','ect2' ),
+                 
                              'save_always' => true,
                          ),
                          array(
                             "type" => "dropdown",
                             "class" => "",
-                            "heading" => __( "Date Format",'ect2'),
-                            // "param_name" => "category",
+                            "heading" => esc_html(__( "Date Format",'ect2')),
+                          
                             "param_name" => "date_format",
                             "value" =>$date_formats,
-                            // "description" => __( "Create Category Specific Timeline (By Default - All Categories)",'ect2' ),
+                           
 
                             'save_always' => true,
                         ),
@@ -119,23 +116,21 @@ if (!class_exists('EctVCAddon')) {
                            "heading" => __( "Events Order",'ect2'),
                              "param_name" => "order",
                              "value" => array(
-                                             __( "ASC",'ect2' ) => "ASC",
-                                             __( "DESC",'ect2') => "DESC",
+                              esc_html(__( "ASC",'ect2' )) => "ASC",
+                              esc_html(__( "DESC",'ect2')) => "DESC",
                                             
                                            ),
                             
-                           
-                    //         "description" => __('','ect2' ),
-                             'save_always' => true,
+                               'save_always' => true,
                          ),
                          array(
                             "type" => "dropdown",
                          "class" => "",
-                           "heading" => __( "Hide Venue",'ect2'),
+                           "heading" => esc_html(__( "Hide Venue",'ect2')),
                              "param_name" => "hide-venue",
                              "value" => array(
-                                             __( "no",'ect2' ) => "no",
-                                             __( "Yes",'ect2') => "yes",
+                              esc_html(__( "no",'ect2' )) => "no",
+                              esc_html( __( "Yes",'ect2')) => "yes",
                                             
                                            ),
                            
@@ -147,8 +142,8 @@ if (!class_exists('EctVCAddon')) {
                            "heading" => __( "Enable Social Share Buttons",'ect2'),
                              "param_name" => "socialshare",
                              "value" => array(
-                                             __( "no",'ect2' ) => "no",
-                                             __( "Yes",'ect2') => "yes",
+                              esc_html(__( "no",'ect2' )) => "no",
+                              esc_html(__( "Yes",'ect2')) => "yes",
                                             
                                            ),
                            
@@ -160,20 +155,20 @@ if (!class_exists('EctVCAddon')) {
                            "heading" => __( "Show Events",'ect2'),
                              "param_name" => "time",
                              "value" => array(
-                                             __( "Upcoming Events",'ect2' ) => "future",
-                                             __( "Past Events",'ect2') => "past",
-                                             __( "All (Upcoming + Past)",'ect2') => "all",
+                              esc_html(__( "Upcoming Events",'ect2' )) => "future",
+                              esc_html(__( "Past Events",'ect2')) => "past",
+                              esc_html(__( "All (Upcoming + Past)",'ect2')) => "all",
                                             
                                            ),
                             
                            
-                    //         "description" => __('','ect2' ),
+                   
                              'save_always' => true,
                          ),
                          array(
                             "type" => "textfield",
                          "class" => "",
-                           "heading" => __( "Limit the events",'ect2'),
+                           "heading" => esc_html(__( "Limit the events",'ect2')),
                              "param_name" => "limit",
                              "value" => '10',
                            
@@ -182,7 +177,7 @@ if (!class_exists('EctVCAddon')) {
                          array(
                             "type" => "textfield",
                          "class" => "",
-                           "heading" => __( "Start Date | format(YY-MM-DD)",'ect2'),
+                           "heading" => esc_html(__( "Start Date | format(YY-MM-DD)",'ect2')),
                              "param_name" => "start_date",
                              "value" => '',
                            
@@ -191,7 +186,7 @@ if (!class_exists('EctVCAddon')) {
                          array(
                             "type" => "textfield",
                          "class" => "",
-                           "heading" => __( "End Date | format(YY-MM-DD)",'ect2'),
+                           "heading" => esc_html(__( "End Date | format(YY-MM-DD)",'ect2')),
                              "param_name" => "end_date",
                              "value" => '',
                            

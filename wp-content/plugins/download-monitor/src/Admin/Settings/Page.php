@@ -75,7 +75,7 @@ class DLM_Settings_Page {
 		}
 
 		if ( isset( $_GET['dlm_action_done'] ) ) {
-			add_action( 'admin_notices', array( $this, 'display_admin_action_message' ) );
+			add_action( 'admin_notices', array( $this, 'display_admin_action_message' ), 8 );
 		}
 
 		$screen = get_current_screen();
@@ -86,7 +86,7 @@ class DLM_Settings_Page {
 			$cpt_check  = post_type_exists( $ep_value );
 
 			if( $page_check || $cpt_check ) {
-				add_action( 'admin_notices', array( $this, 'display_admin_invalid_ep' ) );
+				add_action( 'admin_notices', array( $this, 'display_admin_invalid_ep' ), 8 );
 			}
 		}
 
@@ -166,76 +166,80 @@ class DLM_Settings_Page {
 				// loop fields for this tab
 				if ( isset( $settings[ $tab ] ) ) {
 
-						$active_section = $this->get_active_section( $settings[ $tab ]['sections'] );
+					$active_section = $this->get_active_section( $settings[ $tab ]['sections'] );
 
-						if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
+					if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
 
-							?>
-							<div class="wp-clearfix">
-							<ul class="subsubsub dlm-settings-sub-nav">
+						?>
+                        <div class="wp-clearfix">
+                            <ul class="subsubsub dlm-settings-sub-nav">
 								<?php foreach ( $settings[ $tab ]['sections'] as $section_key => $section ) : ?>
 									<?php echo "<li" . ( ( $active_section == $section_key ) ? " class='active-section'" : "" ) . ">"; ?>
-									<a href="<?php echo esc_url( add_query_arg( array(
-											'tab'     => $tab,
-											'section' => $section_key
-									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?><?php echo isset( $section['badge'] ) ?  '<span class="dlm-upsell-badge">PRO</span>' : ''; ?></a></li>
+                                    <a href="<?php echo esc_url( add_query_arg( array(
+										'tab'     => $tab,
+										'section' => $section_key
+									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?><?php echo isset( $section['badge'] ) ? '<span class="dlm-upsell-badge">PRO</span>' : ''; ?></a></li>
 								<?php endforeach; ?>
-							</ul>
-								</div><!--.wp-clearfix-->
-							<h2><?php echo esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ); ?></h2>
-							<?php
-						}
+                            </ul>
+                        </div><!--.wp-clearfix-->
+                        <h2><?php echo esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ); ?></h2>
+						<?php
+					}
 
-						//echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
-						do_action( 'dlm_tab_section_content_' . $active_section,  $settings );
+					//echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
+					do_action( 'dlm_tab_section_content_' . $active_section, $settings );
 
-						if ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) {
+					if ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) {
 
-							// output correct settings_fields
-							// We change the output location so that it won't interfere with our upsells
-							$option_name = "dlm_" . $tab . "_" . $active_section;
-							settings_fields( $option_name );
+						// output correct settings_fields
+						// We change the output location so that it won't interfere with our upsells
+						$option_name = "dlm_" . $tab . "_" . $active_section;
+						settings_fields( $option_name );
 
-							echo '<table class="form-table">';
+						echo '<table class="form-table">';
 
-							foreach ( $settings[ $tab ]['sections'][ $active_section ]['fields'] as $option ) {
+						foreach ( $settings[ $tab ]['sections'][ $active_section ]['fields'] as $option ) {
 
-								$cs = 1;
+							$cs = 1;
 
-								echo '<tr valign="top">';
-								if ( isset( $option['label'] ) && '' !== $option['label'] ) {
-									echo '<th scope="row"><label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
-								} else {
-									$cs ++;
-								}
-
-
-								echo '<td colspan="' . esc_attr( $cs ) . '">';
-
-								if ( ! isset( $option['type'] ) ) {
-									$option['type'] = '';
-								}
-
-								// make new field object
-								$field = DLM_Admin_Fields_Field_Factory::make( $option );
-
-								// check if factory made a field
-								if ( null !== $field ) {
-									// render field
-									$field->render();
-
-									if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
-										echo ' <p class="dlm-description description">' . wp_kses_post( $option['desc'] ) . '</p>';
-									}
-								}
-
-								echo '</td></tr>';
-
+							if ( ! isset( $option['type'] ) ) {
+								$option['type'] = '';
 							}
 
-							echo '</table>';
+							$tr_class = 'dlm_settings dlm_' . $option['type'] . '_setting';
+							echo '<tr valign="top" data-setting="' . ( isset( $option['name'] ) ? esc_attr( $option['name'] ) : '' ) . '" class="' . esc_attr( $tr_class ) . '">';
+							if ( isset( $option['label'] ) && '' !== $option['label'] ) {
+								echo '<th scope="row"><label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
+							} else {
+								$cs ++;
+							}
+
+
+							echo '<td colspan="' . esc_attr( $cs ) . '">';
+
+							if ( ! isset( $option['type'] ) ) {
+								$option['type'] = '';
+							}
+
+							// make new field object
+							$field = DLM_Admin_Fields_Field_Factory::make( $option );
+
+							// check if factory made a field
+							if ( null !== $field ) {
+								// render field
+								$field->render();
+
+								if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
+									echo ' <p class="dlm-description description">' . wp_kses_post( $option['desc'] ) . '</p>';
+								}
+							}
+
+							echo '</td></tr>';
+
 						}
 
+						echo '</table>';
+					}
 
 					echo '<div class="wpchill-upsells-wrapper">';
 
@@ -453,6 +457,10 @@ class DLM_Settings_Page {
 	 */
 	public function access_files_checker_field( $settings ){
 
+		if ( ! self::check_if_dlm_settings() ) {
+			return $settings;
+		}
+
 		$upload_dir    = wp_upload_dir();
 		$htaccess_path = $upload_dir['basedir'] . '/dlm_uploads/.htaccess';
 		$icon          = 'dashicons-dismiss';
@@ -551,48 +559,80 @@ Deny from all
 	 */
 	public function robots_files_checker_field( $settings ) {
 
-		$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
-		$page = wp_remote_get( get_home_url() . '/robots.txt');
-		$has_virtual_robots = 'undetermined';
-
-		if ( ! is_wp_error( $page ) && is_array( $page ) ) {
-			$has_virtual_robots = false !== strpos( $page['headers']['content-type'], 'text/plain' );
+		if ( ! self::check_if_dlm_settings() ) {
+			return $settings;
 		}
 
-		if ( ! file_exists( $robots_file ) ) {
-			$icon       = 'dashicons-dismiss';
-			$icon_color = '#f00';
-			$icon_text  = __( 'Robots.txt is missing.', 'download-monitor' );
+		$transient = get_transient( 'dlm_robots_txt' );
 
-			if ( $has_virtual_robots && 'undetermined' !== $has_virtual_robots ) {
-				$icon_text  = __( 'Robots.txt file is missing but site has virtual Robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
-			}
+		if ( ! $transient ) {
+			$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
+			$response    = wp_remote_get( get_home_url() . '/robots.txt' );
 
-			if ( $has_virtual_robots && 'undetermined' === $has_virtual_robots ) {
-				$icon_text  = __( 'Robots.txt file is missing but site may have virtual Robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
-			}
-		} else {
+			// default values.
+			$transient = array(
+				'icon'       => 'dashicons-dismiss',
+				'icon_color' => '#f00',
+				'text'       => __( 'Robots.txt is missing.', 'download-monitor' ),
+			);
 
-			$content = file_get_contents( $robots_file );
-			if ( stristr( $content, 'dlm_uploads' ) ) {
-				$icon       = 'dashicons-yes-alt';
-				$icon_color = '#00A32A';
-				$icon_text  = __( 'You are protected by robots.txt.', 'download-monitor' );
+			// we don't have an robots.txt.
+			if ( is_wp_error( $response ) || '404' === wp_remote_retrieve_response_code( $response ) ) {
+
+				$transient['icon']       = 'dashicons-dismiss';
+				$transient['icon_color'] = '#f00';
+				$transient['text']       = __( 'Robots.txt is missing.', 'download-monitor' );
+				$transient['virtual']    = 'maybe';
+				$icon_text               = __( 'Robots.txt file is missing but site may have virtual robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
+				$transient['text']       = $icon_text;
+
 			} else {
-				$icon       = 'dashicons-dismiss';
-				$icon_color = '#f00';
-				$icon_text  = __( 'Robots.txt file exists but dlm_uploads folder is not protected.', 'download-monitor' );
+				// we have robots.txt but it's virtual.
+				if ( ! file_exists( $robots_file ) ) {
+					$transient['icon']       = 'dashicons-dismiss';
+					$transient['icon_color'] = '#f00';
+					$transient['text']       = __( 'Robots.txt is missing.', 'download-monitor' );
+					$transient['virtual']    = 'maybe';
+					$icon_text               = __( 'Robots.txt file is missing but site has virtual robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
+					$transient['text']       = $icon_text;
+				} else {
+
+					// we have our rule/ the user is protected.
+					if ( stristr( wp_remote_retrieve_body( $response ), 'dlm_uploads' ) ) {
+						$transient['protected']  = true;
+						$transient['icon']       = 'dashicons-yes-alt';
+						$transient['icon_color'] = '#00A32A';
+						$transient['text']       = __( 'You are protected by robots.txt.', 'download-monitor' );
+					} else {
+						// we don't have our rule, the folder is not protected.
+						$transient['protected']  = false;
+						$transient['icon']       = 'dashicons-dismiss';
+						$transient['icon_color'] = '#f00';
+						$transient['text']       = __( 'Robots.txt file exists but dlm_uploads folder is not protected.', 'download-monitor' );
+					}
+				}
 			}
+
+			// save our transient.
+			set_transient( 'dlm_robots_txt', $transient, DAY_IN_SECONDS );
+
 		}
+
+		// we need to be sure we have icon/icon_color/text.
+		$transient = wp_parse_args( $transient, array(
+			'icon'       => 'dashicons-dismiss',
+			'icon_color' => '#f00',
+			'text'       => __( 'Robots.txt is missing.', 'download-monitor' ),
+		) );
 
 		$settings['advanced']['sections']['misc']['fields'][] = array(
 			'name'       => 'dlm_regenerate_robots',
 			'label'      => __( 'Regenerate crawler protection for uploads folder', 'download-monitor' ),
 			'desc'       => __( 'Regenerates the robots.txt file.', 'download-monitor' ),
 			'link'       => admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '&tab=advanced&section=misc',
-			'icon'       => $icon,
-			'icon-color' => $icon_color,
-			'icon-text'  => $icon_text,
+			'icon'       => $transient['icon'],
+			'icon-color' => $transient['icon_color'],
+			'icon-text'  => $transient['text'],
 			'disabled'   => isset( $disabled ) ? 'true' : 'false',
 			'type'       => 'htaccess_status',
 			'priority'   => 40
@@ -609,6 +649,8 @@ Deny from all
 	 * @since 4.5.9
 	 */
 	private function regenerate_robots(){
+
+		delete_transient( 'dlm_robots_txt' );
 
 		$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
 		if( ! file_exists( $robots_file ) ) {
@@ -627,12 +669,48 @@ Deny from all
 				$txt        = 'User-agent: *' . "\n" . 'Disallow: /dlm_uploads/' . "\n\n" . $content;
 
 				fwrite( $dlm_robots, $txt );
-
 				return true;
 			}
 		}
-
 		return false;
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return void
+	 */
+	public function redo_upgrade() {
+
+		global $wp, $wpdb, $pagenow;
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return false;
+		}
+
+		// Drop the dlm_reports_log
+		$drop_statement = "DROP TABLE IF EXISTS {$wpdb->prefix}dlm_reports_log";
+		$wpdb->query( $drop_statement );
+
+		// Delete upgrade history and set the need DB pgrade
+		delete_option( 'dlm_db_upgraded' );
+		set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
+
+		return true;
+	}
+
+	/**
+	 * Check if this is Download Monitor's settings page
+	 *
+	 * @return bool
+	 */
+	public static function check_if_dlm_settings() {
+
+		if ( ! isset( $_GET['post_type'] ) || 'dlm_download' !== $_GET['post_type'] || ! isset( $_GET['page'] ) || 'download-monitor-settings' !== $_GET['page'] ) {
+			return false;
+		}
+
+		return true;
 	}
 }
 

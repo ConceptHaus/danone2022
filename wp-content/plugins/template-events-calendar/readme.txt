@@ -1,11 +1,11 @@
-﻿=== Events Shortcodes For The Events Calendar ===
+=== Events Shortcodes For The Events Calendar ===
 Contributors: narinder-singh,satindersingh,coolplugins
 Donate link: https://paypal.me/CoolPlugins/10USD/
 Tags: the events calendar, calendar, event, events, events calendar, modern tribe, shortcode, elementor widget, events shortcodes
-Requires at least: 4.5
-Tested up to: 5.9.1
+Requires at least: 4.6
+Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: trunk
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,19 +35,19 @@ Best addon for **The Events Calendar** plugin to show your events anywhere insid
 
 **Free Version Demos**
 
-[🔗 Events List](https://eventscalendartemplates.com/list-demo/)
-[🔗 Events Timeline](https://eventscalendartemplates.com/timeline-demo/)
-[🔗 Events Minimal List](https://eventscalendartemplates.com/minimal-list-demo/)
+[🔗 Events List](https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-list/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_page)
+[🔗 Events Timeline](https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-timeline/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_page)
+[🔗 Events Minimal List](https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-minimal-list/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_page)
 **Premium Version Demos**
 
-[🔗 Events Grid](https://eventscalendartemplates.com/events-grid-demo/)
-[🔗 Events Masonry](https://eventscalendartemplates.com/events-masonry-demo/)
-[🔗 Events Carousel](https://eventscalendartemplates.com/events-carousel-demo/)
-[🔗 Events Slider](https://eventscalendartemplates.com/events-slider-demo/)
-[🔗 Events Accordion](https://eventscalendartemplates.com/events-accordion-demo/)
-[🔗 Events Calendar](https://eventscalendartemplates.com/events-calendar-demo/)
-[🔗 Events by Organizer](https://eventscalendartemplates.com/events-by-organizer/)
-[🔗 Events by Venue](https://eventscalendartemplates.com/events-by-venue/)
+[🔗 Events Grid](https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-grid/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_page)
+[🔗 Events Masonry](https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-masonry/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_page)
+[🔗 Events Carousel](https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-carousel/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_page)
+[🔗 Events Slider](https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-slider/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_page)
+[🔗 Events Accordion](https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-accordion/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_page)
+[🔗 Events Calendar](https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-calendar/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_page)
+[🔗 Events by Organizer](https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-by-organizer/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_page)
+[🔗 Events by Venue](https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-by-venue/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_page)
 
 > Now customize event single page with custom colors and layout by using
 [🔗 Event Single Page Templates Addon For The Events Calendar](https://wordpress.org/plugins/event-page-templates-addon-for-the-events-calendar/).
@@ -185,7 +185,7 @@ We are elite author on envato with **10,000+ premium customers**, you are in saf
 
 = Can I check demo before upgrading to PRO❔ =
 Please check our demo website:-
-[🔗 https://eventscalendartemplates.com/demos/](https://eventscalendartemplates.com/demos/)
+[🔗 https://eventscalendaraddons.com/demos/events-shortcodes-pro/](https://eventscalendaraddons.com/demos/events-shortcodes-pro/)
 
 Here you will find our all premium designs and layouts provided by premium addon. You can also contact us at **https://coolplugins.net/contact-plugin-support/** for any pre-sale query.
 
@@ -211,6 +211,26 @@ But if you want to customize styles and code according to your own requirements 
 8. Elementor Page Builder Widget Preview
 
 == Changelog ==
+= Version 2.2.3 | Sep 23, 2022 =
+* Fixed:- Title issue with divi theme
+* Fixed:- event status issue after event calendar update
+* Fixed:- Google font issue
+= Version 2.2.2 | Sep 23, 2022 =
+* Fixed: Translation issue
+* Fixed:- Google font issue
+= Version 2.2.1 | Apr 14, 2022 =
+* Fixed:- Minor Issue
+= Version 2.2 | Apr 08, 2022 =
+* Fixed:-  Security issues
+* Improvements:- Improved OverallCode
+= Version 2.1 | Apr 07, 2022 =
+* Fixed:-  Security issues
+* Updated:- Codestar Framework
+* Improved:- Overall code improvements
+= Version 2.0 | Apr 05, 2022 =
+* Fixed:- Major Security issues
+* Improved:- Overall code improvements
+
 = Version 1.9.2 | Oct 21, 2021 =
 * Compatibilty:- Compatibilty with PHP version 8
 * Improvemnets:- Code improved
@@ -312,5 +332,5 @@ But if you want to customize styles and code according to your own requirements 
 **More:- check changelog.txt file inside plugin folder.**
 
 == Upgrade Notice ==
-= 1.8 =
-Major Updates removed titan Framework settings panel and integrated new settings panel. Please check and save again plugin settings
+= 2.2.1 =
+Minor Issue

@@ -71,14 +71,8 @@ class DLM_Product_Manager {
 				'dlm-email-lock'              => array(
 					'version' => '4.2.2',
 				),
-				'dlm-download-duplicator'     => array(
-					'version' => '4.0.3',
-				),
 				'dlm-csv-importer'            => array(
 					'version' => '4.1.3',
-				),
-				'dlm-email-notification'      => array(
-					'version' => '4.1.7',
 				),
 				'dlm-amazon-s3'               => array(
 					'version' => '4.0.3',
@@ -275,7 +269,7 @@ class DLM_Product_Manager {
 			}
 
 			// Now, let's create the addon row info content only if the addon doesn't meet the requirements.
-			if ( $addon_present ) {
+			if ( isset( $addon_present ) && $addon_present ) {
 
 				$addons_content .= '<div class="dlm-plugin-inline-notice__row">';
 				$addons_content .= '<div class="dlm-plugin-inline-notice__line">' . $plugin_name . '</div>';

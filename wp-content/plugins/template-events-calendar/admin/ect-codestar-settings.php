@@ -54,10 +54,10 @@ public function create_settings_panel()
         //
         // Set a unique slug-like ID
         $prefix = 'ects_options';
-    if( class_exists( 'ECTCSF' ) )
+    if( class_exists( 'CSF' ) )
          {
         // Create options
-        ECTCSF::createOptions( $prefix, array(
+        CSF::createOptions( $prefix, array(
             'framework_title' =>'Events Shortcodes For The Events Calendar Settings',
           'menu_title' => 'Shortcodes Settings',
           'menu_slug'  => 'tribe_events-events-template-settings',
@@ -73,9 +73,9 @@ public function create_settings_panel()
     
         //
         // Create a section
-        ECTCSF::createSection( $prefix, array(
+        CSF::createSection( $prefix, array(
           'title'  => 'General Settings',
-        //   'type' => 'tabbed',
+       
           'fields' => array(
 
       
@@ -159,18 +159,15 @@ public function create_settings_panel()
             'id' => 'ect_dates_styles',
             'type' => 'typography',
             'desc' => 'Select a style',
-            // 'show_letter_spacing' => false,
-            // 'show_text_transform' => false,
-            // 'show_font_variant' => false,
-            // 'show_text_shadow' => false,
+          
             'default' => array(
             'color' => '#00445e',
             'font-family'=>'Monda',
         
-            // 'font-size' =>'21',
+            
             'font-size' => '36',
             'font-weight' => '700',
-            // 'font-weight' => 'bold',
+           
             'line-height' => '1',
             ),
             'line_height_unit'=>'em',
@@ -181,7 +178,7 @@ public function create_settings_panel()
         //
         // Create a section
 
-        ECTCSF::createSection( $prefix, array(
+        CSF::createSection( $prefix, array(
           'title'  => 'Extra Settings',
           'fields' => array(
 
@@ -209,7 +206,7 @@ public function create_settings_panel()
           )
         ) );
 
-        ECTCSF::createSection( $prefix,array(
+        CSF::createSection( $prefix,array(
           'title' => 'Shortcode Attributes',
           'fields' =>array(
           
@@ -226,7 +223,7 @@ public function create_settings_panel()
 
         ),
         ) );
-        ECTCSF::createSection( $prefix,array(
+        CSF::createSection( $prefix,array(
           'title' => 'Buy PRO',
           'fields' =>array(
           
@@ -280,14 +277,14 @@ public function create_settings_panel()
 		<li>🆓 List Layout</li>
 		<li>🆓 Timeline Layout</li></ul></td>
 		<td style="border: 1px solid #ddd;"><ul class="p_feature-list">
-		<li>💳 <a href="https://eventscalendartemplates.com/events-grid-demo/" target="_blank">Grid Layout</a> (<b>PRO</b>)</li>
-		<li>💳 <a href="https://eventscalendartemplates.com/events-masonry-demo/" target="_blank">Masonry Layout</a> (<b>PRO</b>)</li>
-		<li>💳 <a href="https://eventscalendartemplates.com/events-carousel-demo/" target="_blank">Carousel Layout</a> (<b>PRO</b>)</li>
-		<li>💳 <a href="https://eventscalendartemplates.com/events-slider-demo/" target="_blank">Slider Layout</a> (<b>PRO</b>)</li>
-		<li>💳 <a href="https://eventscalendartemplates.com/events-accordion-demo/" target="_blank">Accordion Layout</a> (<b>PRO</b>)</li>
-		<li>💳 <a href="https://eventscalendartemplates.com/events-calendar-demo/" target="_blank">Calendar Layout</a> (<b>PRO</b>)</li>
-		<li>💳 <a href="https://eventscalendartemplates.com/events-by-organizer/" target="_blank">Events by Organizer</a> (<b>PRO</b>)</li>
-		<li>💳 <a href="https://eventscalendartemplates.com/events-by-venue/" target="_blank">Events by Venue</a> (<b>PRO</b>)</li>
+		<li>💳 <a href="https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-grid/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside" target="_blank">Grid Layout</a> (<b>PRO</b>)</li>
+		<li>💳 <a href="https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-masonry/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside" target="_blank">Masonry Layout</a> (<b>PRO</b>)</li>
+		<li>💳 <a href="https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-carousel/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside" target="_blank">Carousel Layout</a> (<b>PRO</b>)</li>
+		<li>💳 <a href="https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-slider/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside" target="_blank">Slider Layout</a> (<b>PRO</b>)</li>
+		<li>💳 <a href="https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-accordion/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside" target="_blank">Accordion Layout</a> (<b>PRO</b>)</li>
+		<li>💳 <a href="https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-calendar/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside" target="_blank">Calendar Layout</a> (<b>PRO</b>)</li>
+		<li>💳 <a href="https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-by-organizer/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside" target="_blank">Events by Organizer</a> (<b>PRO</b>)</li>
+		<li>💳 <a href="https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-by-venue/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside" target="_blank">Events by Venue</a> (<b>PRO</b>)</li>
 		<li>💳 Events Category Filters Inside Masonry (<b>PRO</b>)</li>
 		<li>💳 Show Only Featured Events (<b>PRO</b>)</li>
 		<li>💳 Events Schema SEO Support (<b>PRO</b>)</li>
@@ -302,14 +299,16 @@ function ect_shortcode_attr()
 {
       echo '
       <style>
-      table.ect-shortcodes-tbl {
-        width: 70%:;
-        margin: auto;
-        width: 50%;
-    }
-      table.ect-shortcodes-tbl tr td{
-      padding:15px;
-      }</style>
+        table.ect-shortcodes-tbl {
+          width: 70%:;
+          margin: auto;
+          width: 50%;
+        }   
+        table.ect-shortcodes-tbl tr td{
+          padding:15px;
+        }
+      </style>
+
       <h3>Shortcode Attributes</h3>
       <table class="ect-shortcodes-tbl" style="border:1px solid #ddd;">
       <tr style="border:1px solid #ddd"><th style="border:1px solid #ddd">Attribute</th><th style="border:1px solid #ddd">Value</th></tr>
@@ -318,10 +317,10 @@ function ect_shortcode_attr()
       <li><strong>default</strong></li>
       <li><strong>timeline-view</strong></li>
       <li><strong>minimal-list</strong></li>
-      <li><strong>grid-view</strong> (<a href="https://eventscalendartemplates.com/events-grid-demo/" target="_blank">Premium Template</a>)</li>
-      <li><strong>carousel-view</strong> (<a href="https://eventscalendartemplates.com/events-carousel-demo/#top" target="_blank">Premium Template</a>)</li>
-      <li><strong>slider-view</strong> (<a href="https://eventscalendartemplates.com/events-slider-demo/" target="_blank">Premium Template</a>)</li>
-      <li><strong>accordion-view</strong> (<a href="https://eventscalendartemplates.com/events-accordion-demo/" target="_blank">Premium Template</a>)</li>
+      <li><strong>grid-view</strong> (<a href="'.esc_attr('https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-grid/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside').'" target="_blank">Premium Template</a>)</li>
+      <li><strong>carousel-view</strong> (<a href="'.esc_attr('https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-carousel/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside').'" target="_blank">Premium Template</a>)</li>
+      <li><strong>slider-view</strong> (<a href="'.esc_attr('https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-slider/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside').'" target="_blank">Premium Template</a>)</li>
+      <li><strong>accordion-view</strong> (<a href="'.esc_attr('https://eventscalendaraddons.com/demos/events-shortcodes-pro/events-accordion/?utm_source=ect_plugin&utm_medium=plugin_link&utm_campaign=ect_plugin_inside').'" target="_blank">Premium Template</a>)</li>
       </ul></td></tr>
 
       <tr style="border:1px solid #ddd"><td  style="border:1px solid #ddd">style</td>
