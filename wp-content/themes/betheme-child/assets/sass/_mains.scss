@@ -216,3 +216,21 @@
 .hideContent {
   padding: 0!important; margin: 0!important;display: none!important;
 }
+.page-id-3 {
+  & .the_content_wrapper  {
+    padding: 40px 0; @include box-sizing(border-box);
+  }
+}
+// === Pop up cookies
+#cookie-law-info-bar {
+  padding: 20px 30px!important; @include box-sizing(border-box);
+  & .cli-bar-container {
+    flex-direction: column;
+  }
+  & .cli-bar-message {
+    width: 100%!important; text-align: center; margin-bottom: 20px!important;
+  }
+  & .cli-bar-btn_container {
+    margin: 0!important; width: 100%; justify-content: center;
+  }
+}
